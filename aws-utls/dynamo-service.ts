@@ -46,8 +46,7 @@ export class DynamoService {
         "username": username,
       }
     };
-    let data = await this.docClient.get(params).promise();
-    // console.log("DATA: ",data);
+    const data = await this.docClient.get(params).promise();
     if (data && data.Item ) {
       return data.Item;
     } else {
