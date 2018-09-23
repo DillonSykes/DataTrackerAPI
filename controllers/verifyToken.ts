@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
+import * as jwt from "jsonwebtoken";
 
-module.exports = function verifyToken(req, res, next) {
+export function verifyToken(req, res, next) {
   const token = req.body.token || req.query.token || req.headers['x-access-token'];
   console.log(token);
   if (!token) {
@@ -16,5 +16,4 @@ module.exports = function verifyToken(req, res, next) {
     req.name = decoded.id;
     next();
   });
-};
-
+}

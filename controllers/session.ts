@@ -4,10 +4,11 @@ import {Request, Response, Router} from 'express'
 import {Client} from "../models/client";
 import * as bodyParser from "body-parser";
 import {Session} from "../models/session";
+import {verifyToken} from "./verifyToken";
 
 const express = require('express');
 const router: Router = express.Router();
-const verifyToken = require("./verifyToken");
+
 const uuid = require("uuid/v4");
 const dynamoService = new DynamoService();
 const clientService = new ClientService();

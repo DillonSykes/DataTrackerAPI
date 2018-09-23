@@ -8,8 +8,8 @@ export class DynamoService {
       region: "us-east-1",
       endpoint: "https://dynamodb.us-east-1.amazonaws.com",
       convertEmptyValues: true,
-      accessKeyId: process.env.AWS_ACCESS_KEY,
-      secretAccessKey: process.env.AWS_SECRET_KEY,
+      accessKeyId: process.env.ACCESS_KEY,
+      secretAccessKey: process.env.SECRET_KEY,
     });
   }
   private createInput(tableName: string, obj: any): any {

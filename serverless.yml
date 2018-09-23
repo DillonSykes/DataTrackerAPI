@@ -7,13 +7,14 @@ provider:
   name: aws
   runtime: nodejs6.10
   environment:
-    HOST: ${env:HOST}
     PORT: ${env:PORT}
-    USER: ${env:USER}
-    PASSWORD: ${env:PASSWORD}
-    DB_NAME: ${env:DB_NAME}
     SECRET: ${env:SECRET}
+    ACCESS_KEY: ${env:ACCESS_KEY}
+    SECRET_KEY: ${env:SECRET_KEY}
 
+package:
+  include:
+  - ../node_modules/**
 
 functions:
   app:
