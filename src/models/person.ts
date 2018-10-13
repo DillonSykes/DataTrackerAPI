@@ -1,9 +1,8 @@
-export class Client {
+export class Person {
   constructor(
-    public first_name:string,
-    public last_name:string,
+    public first_name: string,
+    public last_name: string,
     public session_id: string,
-    public client_id:string,
     public date_of_birth?: string,
     public smoker?: boolean,
     public smoker_amount?: string,
