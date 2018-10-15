@@ -1,27 +1,44 @@
 {
-  "name": "jsapi",
+  "name": "data-tracker-api",
   "version": "0.0.0",
   "private": true,
+  "main": "src/app.ts",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "npm run build && node ./dist/app.js",
+    "build": "tsc && cp src/serverless.yml ./dist",
+    "clean": "rm -rf ./dist",
+    "deploy": "npm run build && cd dist && serverless deploy",
+    "lint": "tslint src/**/*.ts"
   },
   "dependencies": {
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
-    "express": "~4.16.0",
-    "http-errors": "~1.6.2",
-    "morgan": "~1.9.0",
-    "mysql": "^2.16.0",
-    "pug": "2.0.0-beta11",
+    "aws-sdk": "^2.320.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
-    "jsonwebtoken": "^8.3.0"
+    "cookie-parser": "~1.4.3",
+    "cors": "^2.8.4",
+    "debug": "~2.6.9",
+    "dotenv": "^6.0.0",
+    "envalid": "^4.1.4",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "http-server": "^0.11.1",
+    "jsonwebtoken": "^8.3.0",
+    "serverless-http": "^1.6.0",
+    "uuid": "^3.3.2",
+    "winston": "^3.1.0"
   },
   "devDependencies": {
+    "@types/dotenv": "^4.0.3",
+    "@types/express": "^4.16.0",
+    "@types/jsonwebtoken": "^7.2.8",
+    "@types/node": "^10.10.3",
+    "@types/uuid": "^3.4.4",
     "concurrently": "^3.5.1",
-    "nodemon": "^1.11.0",
+    "nodemon": "^1.18.4",
+    "serverless-dotenv-plugin": "^2.0.0",
+    "serverless-offline": "^3.25.14",
     "tslint": "^5.11.0",
-    "typescript": "^3.0.1",
+    "typescript": "^3.0.3",
     "yarn": "^1.9.4"
   }
 }
