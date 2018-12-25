@@ -9,6 +9,7 @@ import * as logger from "winston";
 import { UpsertOptions } from "../models/upsert-options";
 import { AWSError } from "aws-sdk";
 import { ObjectUtils } from "../utils/object-utils";
+import { GetAllOptions } from "../models/get-all-params";
 
 const express = require("express");
 const router: Router = express.Router();
@@ -33,6 +34,19 @@ router.post("", verifyToken, (req: Request, res: Response) => {
       if (response) {
         res.send({ code: 200, message: `Session: ${id} saved.` });
       }
+    })
+    .catch((err: AWSError) => {
+      logger.error(`ERROR: ${err}`);
+      return res.send({ status: err.code, message: `Error: ${err}` });
+    });
+});
+router.get("", verifyToken, (req: Request, res: Response) => {
+  dynamoService.connect();
+  const params: GetAllOptions<Session> = new GetAllOptions("session");
+  dynamoService
+    .getAll(params)
+    .then((response: any) => {
+      res.send({ code: 200, body: response });
     })
     .catch((err: AWSError) => {
       logger.error(`ERROR: ${err}`);

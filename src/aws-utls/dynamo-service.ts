@@ -5,6 +5,7 @@ import * as logger from "winston";
 import {GetOptions} from "../models/get-params";
 import {DeleteOptions} from "../models/delete-options";
 import {ObjectUtils} from "../utils/object-utils";
+import {GetAllOptions} from "../models/get-all-params";
 
 export interface IDynamoService {
   /**
@@ -65,6 +66,18 @@ export class DynamoService implements IDynamoService {
       }
     } catch {
       logger.error(`Error occurred while trying to get ${JSON.stringify(params.Key)} from table ${params.TableName}`);
+    }
+  }
+  public async getAll<T>(params: GetAllOptions<T>): Promise<any> {
+    try {
+      const data = await this.dynamoDB.scan(params).promise();
+      if (data) {
+        return data.Items;
+      } else {
+        return false;
+      }
+    } catch {
+      logger.error(`Error occurred while trying to get ${JSON.stringify(params)} from table ${params.TableName}`);
     }
   }
 
