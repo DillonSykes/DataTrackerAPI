@@ -1,11 +1,11 @@
 export class ObjectUtils {
   public static mapEmptyStrings(obj: any): any {
-    const newObj: any = {};
-    Object.keys(obj).forEach((prop: any) => {
-      if (obj[prop] === "") {
-        { newObj[prop] = "N/A"; }
-      } else {
-        { newObj[prop] = obj[prop]; }
+    const newObj = { ...obj };
+    Object.keys(newObj).forEach(key => {
+      if (newObj[key] && typeof newObj[key] === "object") {
+        ObjectUtils.mapEmptyStrings(newObj[key]);
+      } else if (newObj[key] === "") {
+        delete newObj[key];
       }
     });
     return newObj;

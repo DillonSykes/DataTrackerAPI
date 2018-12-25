@@ -39,7 +39,7 @@ router.post("/new", verifyToken, (req: Request, res: Response) => {
       res.send({
         status: true,
         sessionId: session_id,
-        message: `Successfully inserted grand children into session: ${JSON.stringify(session_id)}`
+        message: `Successfully inserted grand children into session: ${JSON.stringify(session_id)}`,
       });
     })
     .catch((err: AWSError) => {
