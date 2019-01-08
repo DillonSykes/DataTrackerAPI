@@ -10,6 +10,8 @@ import { UpsertOptions } from "../models/upsert-options";
 import { AWSError } from "aws-sdk";
 import { ObjectUtils } from "../utils/object-utils";
 import { GetAllOptions } from "../models/get-all-params";
+import { SessionService } from "../utils/session_utils";
+import { GetOptions } from "../models/get-params";
 
 const express = require("express");
 const router: Router = express.Router();
@@ -46,11 +48,29 @@ router.get("", verifyToken, (req: Request, res: Response) => {
   dynamoService
     .getAll(params)
     .then((response: any) => {
-      res.send({ code: 200, body: response });
+      const newRes = SessionService.getClients(response);
+      console.log(newRes);
+      res.send({ code: 200, body: newRes });
     })
     .catch((err: AWSError) => {
       logger.error(`ERROR: ${err}`);
-      return res.send({ status: err.code, message: `Error: ${err}` });
+      return res.send({ code: err.code, message: `Error: ${err}` });
+    });
+});
+router.get("/:id", (req: Request, res: Response) => {
+  const key: any = {
+    session_id: req.params.id,
+  };
+  const params: GetOptions<Session> = new GetOptions<Session>("session", key);
+  dynamoService.connect();
+  dynamoService
+    .get(params)
+    .then((response: any) => {
+      res.send(response);
+    })
+    .catch((err: AWSError) => {
+      logger.error(`ERROR: ${err}`);
+      return res.send({ code: err.code, message: `Error: ${err}` });
     });
 });
 

@@ -1,11 +1,11 @@
-import {UpsertOptions} from "../models/upsert-options";
-import {config, ConfigModel} from "./config";
-import {AWSError, DynamoDB} from "aws-sdk";
+import { UpsertOptions } from "../models/upsert-options";
+import { config, ConfigModel } from "./config";
+import { AWSError, DynamoDB } from "aws-sdk";
 import * as logger from "winston";
-import {GetOptions} from "../models/get-params";
-import {DeleteOptions} from "../models/delete-options";
-import {ObjectUtils} from "../utils/object-utils";
-import {GetAllOptions} from "../models/get-all-params";
+import { GetOptions } from "../models/get-params";
+import { DeleteOptions } from "../models/delete-options";
+import { ObjectUtils } from "../utils/object-utils";
+import { GetAllOptions } from "../models/get-all-params";
 
 export interface IDynamoService {
   /**
@@ -36,7 +36,6 @@ export class DynamoService implements IDynamoService {
         apiVersion: this.config.AWS_API_VERSION,
         region: this.config.DYNAMO_REGION,
       });
-
     } catch (err) {
       const message = `An error occurred while attempting to connect to DynamoDB: ${err}`;
       throw new Error(message);
@@ -44,7 +43,8 @@ export class DynamoService implements IDynamoService {
   }
 
   public upsert<T>(params: UpsertOptions<T>): Promise<boolean> {
-    return this.dynamoDB.put(params)
+    return this.dynamoDB
+      .put(params)
       .promise()
       .then(() => {
         logger.info(`Successful upsert into table: ${params.TableName}`);
@@ -64,8 +64,12 @@ export class DynamoService implements IDynamoService {
       } else {
         return false;
       }
-    } catch {
-      logger.error(`Error occurred while trying to get ${JSON.stringify(params.Key)} from table ${params.TableName}`);
+    } catch (e) {
+      throw new Error(
+        `Error occurred while trying to get ${JSON.stringify(
+          params.Key,
+        )} from table ${params.TableName} with error: ${e.message}`,
+      );
     }
   }
   public async getAll<T>(params: GetAllOptions<T>): Promise<any> {
@@ -77,7 +81,11 @@ export class DynamoService implements IDynamoService {
         return false;
       }
     } catch {
-      logger.error(`Error occurred while trying to get ${JSON.stringify(params)} from table ${params.TableName}`);
+      logger.error(
+        `Error occurred while trying to get ${JSON.stringify(
+          params,
+        )} from table ${params.TableName}`,
+      );
     }
   }
 
@@ -87,13 +95,23 @@ export class DynamoService implements IDynamoService {
       console.log(response);
       if (ObjectUtils.isEmptyObject(response)) {
         logger.info("Nothing was deleted");
-        throw new Error(`Delete did work, this may be due to the item may not exist.`);
+        throw new Error(
+          `Delete did work, this may be due to the item may not exist.`,
+        );
       }
       return true;
     } catch (err) {
       const key: string = JSON.stringify(params.Key);
-      logger.error(`Error deleting ${key} from table ${params.TableName} with error: ${err.message}`);
-      throw new Error(`Error deleting ${key} from table ${params.TableName} with error: ${err.message}`);
+      logger.error(
+        `Error deleting ${key} from table ${params.TableName} with error: ${
+          err.message
+        }`,
+      );
+      throw new Error(
+        `Error deleting ${key} from table ${params.TableName} with error: ${
+          err.message
+        }`,
+      );
     }
   }
 }

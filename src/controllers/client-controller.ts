@@ -7,6 +7,8 @@ import {verifyToken} from "./verifyToken";
 import * as bodyParser from "body-parser";
 import {DynamoService} from "../aws-utls/dynamo-service";
 import {DeleteOptions} from "../models/delete-options";
+import {GetOptions} from "../models/get-params";
+import {Client} from "../models/client";
 const dynamoService = new DynamoService();
 dynamoService.connect();
 router.use(bodyParser.urlencoded({ extended: false }));
