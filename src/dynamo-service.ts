@@ -1,11 +1,13 @@
-import { UpsertOptions } from "../models/upsert-options";
+import {
+  UpsertOptions,
+  GetOptions,
+  DeleteOptions,
+  GetAllOptions,
+} from "./models";
 import { config, ConfigModel } from "./config";
 import { AWSError, DynamoDB } from "aws-sdk";
 import * as logger from "winston";
-import { GetOptions } from "../models/get-params";
-import { DeleteOptions } from "../models/delete-options";
-import { ObjectUtils } from "../utils/object-utils";
-import { GetAllOptions } from "../models/get-all-params";
+import { ObjectUtils } from "./utils";
 
 export interface IDynamoService {
   /**
