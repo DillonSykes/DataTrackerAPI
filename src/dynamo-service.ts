@@ -1,11 +1,18 @@
+<<<<<<< HEAD:src/aws-utls/dynamo-service.ts
 import { UpsertOptions } from "../models/upsert-options";
 import { config, ConfigModel } from "../config";
+=======
+import {
+  UpsertOptions,
+  GetOptions,
+  DeleteOptions,
+  GetAllOptions,
+} from "./models";
+import { config, ConfigModel } from "./config";
+>>>>>>> dev:src/dynamo-service.ts
 import { AWSError, DynamoDB } from "aws-sdk";
 import * as logger from "winston";
-import { GetOptions } from "../models/get-params";
-import { DeleteOptions } from "../models/delete-options";
-import { ObjectUtils } from "../utils/object-utils";
-import { GetAllOptions } from "../models/get-all-params";
+import { ObjectUtils } from "./utils";
 
 export interface IDynamoService {
   /**
