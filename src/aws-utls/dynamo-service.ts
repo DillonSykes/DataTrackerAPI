@@ -1,5 +1,5 @@
 import { UpsertOptions } from "../models/upsert-options";
-import { config, ConfigModel } from "./config";
+import { config, ConfigModel } from "../config";
 import { AWSError, DynamoDB } from "aws-sdk";
 import * as logger from "winston";
 import { GetOptions } from "../models/get-params";

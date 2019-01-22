@@ -2,7 +2,7 @@ import {Request, Response} from "express";
 import {sessionController} from "./controllers/session";
 import {userController} from "./controllers/user";
 import {clientController} from "./controllers/client-controller";
-import {config} from "./aws-utls/config";
+import {config} from "./config";
 import {childController} from "./controllers/child-controller";
 
 import * as bodyParser from "body-parser";

@@ -1,5 +1,5 @@
 import * as jwt from "jsonwebtoken";
-import {config} from "../aws-utls/config";
+import {config} from "../config";
 import {Response, Request, NextFunction} from "express";
 export function verifyToken(req: Request, res: Response, next: NextFunction): any {
   const token = req.body.token || req.query.token || req.headers["x-access-token"];
