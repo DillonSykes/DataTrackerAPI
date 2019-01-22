@@ -27,7 +27,7 @@ router.post("/new", (req: Request, res: Response) => {
   });
   const session: any = {
     session_id: session_id,
-    children: children
+    children: children,
   };
 
   logger.debug(`Session: ${JSON.stringify(session)}`);
@@ -41,8 +41,8 @@ router.post("/new", (req: Request, res: Response) => {
           status: true,
           sessionId: session_id,
           message: `Successfully inserted children into session: ${JSON.stringify(
-            session_id
-          )}`
+            session_id,
+          )}`,
         });
       }
     })

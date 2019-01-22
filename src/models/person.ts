@@ -6,5 +6,6 @@ export class Person {
     public date_of_birth?: string,
     public smoker?: boolean,
     public smoker_amount?: string,
-    public health_concerns?: string) {}
+    public health_concerns?: string,
+  ) {}
 }
