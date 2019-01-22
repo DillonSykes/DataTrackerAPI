@@ -1,7 +1,7 @@
-import { Session } from "../models/session";
+import { Session } from "../models";
 
 export class SessionService {
-  public static getClients(response: any): any[] {
+  public static getClients(response: Session[]): any[] {
     const clients: any[] = [];
     response.map((session: Session) => {
       if (!session.client_2) {
