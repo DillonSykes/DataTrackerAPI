@@ -1,16 +1,7 @@
-<<<<<<< HEAD
-import {Request, Response} from "express";
-import {sessionController} from "./controllers/session";
-import {userController} from "./controllers/user";
-import {clientController} from "./controllers/client-controller";
-import {config} from "./config";
-import {childController} from "./controllers/child-controller";
-=======
 import { Request, Response } from "express";
 import { sessionController } from "./controllers";
 import { userController } from "./controllers";
 import { config } from "./config";
->>>>>>> dev
 
 import * as bodyParser from "body-parser";
 

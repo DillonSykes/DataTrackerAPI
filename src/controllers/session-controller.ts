@@ -18,7 +18,7 @@ router.post("", verifyToken, (req: Request, res: Response) => {
   logger.info("Created new session...");
   const id = uuid();
   const session = { ...req.body, session_id: id };
-  ObjectUtils.mapEmptyStrings(session);
+  // ObjectUtils.mapEmptyStrings(session);
   logger.debug(session);
   dynamoService.connect();
   const params: UpsertOptions<Session> = new UpsertOptions("session", session);
