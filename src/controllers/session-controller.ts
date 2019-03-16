@@ -56,7 +56,7 @@ router.get("", verifyToken, (req: Request, res: Response) => {
       return res.send({ code: err.code, message: `Error: ${err}` });
     });
 });
-router.get("/:id", (req: Request, res: Response) => {
+router.get("/:id", verifyToken, (req: Request, res: Response) => {
   const key: any = {
     session_id: req.params.id,
   };
@@ -72,7 +72,7 @@ router.get("/:id", (req: Request, res: Response) => {
       return res.send({ code: err.code, message: `Error: ${err}` });
     });
 });
-router.delete("/:id", (req: Request, res: Response) => {
+router.delete("/:id", verifyToken, (req: Request, res: Response) => {
   const key: any = {
     session_id: req.params.id,
   };
