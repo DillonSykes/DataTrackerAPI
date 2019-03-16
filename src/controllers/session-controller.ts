@@ -1,7 +1,13 @@
 import { DynamoService } from "../dynamo-service";
 import { Request, Response, Router } from "express";
 import * as bodyParser from "body-parser";
-import { Session, UpsertOptions, GetAllOptions, GetOptions } from "../models";
+import {
+  Session,
+  UpsertOptions,
+  GetAllOptions,
+  GetOptions,
+  DeleteOptions,
+} from "../models";
 import { verifyToken } from "./verify-token";
 import * as logger from "winston";
 import { AWSError } from "aws-sdk";
@@ -50,7 +56,7 @@ router.get("", verifyToken, (req: Request, res: Response) => {
       return res.send({ code: err.code, message: `Error: ${err}` });
     });
 });
-router.get("/:id", (req: Request, res: Response) => {
+router.get("/:id", verifyToken, (req: Request, res: Response) => {
   const key: any = {
     session_id: req.params.id,
   };
@@ -58,6 +64,25 @@ router.get("/:id", (req: Request, res: Response) => {
   dynamoService.connect();
   dynamoService
     .get(params)
+    .then((response: any) => {
+      res.send(response);
+    })
+    .catch((err: AWSError) => {
+      logger.error(`ERROR: ${err}`);
+      return res.send({ code: err.code, message: `Error: ${err}` });
+    });
+});
+router.delete("/:id", verifyToken, (req: Request, res: Response) => {
+  const key: any = {
+    session_id: req.params.id,
+  };
+  dynamoService.connect();
+  const params: DeleteOptions<Session> = new DeleteOptions<Session>(
+    "session",
+    key,
+  );
+  dynamoService
+    .delete(params)
     .then((response: any) => {
       res.send(response);
     })
