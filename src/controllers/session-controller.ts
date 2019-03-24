@@ -73,8 +73,9 @@ router.get("/:id", verifyToken, (req: Request, res: Response) => {
     });
 });
 router.delete("/:id", verifyToken, (req: Request, res: Response) => {
+  const id = req.params.id;
   const key: any = {
-    session_id: req.params.id,
+    session_id: id,
   };
   dynamoService.connect();
   const params: DeleteOptions<Session> = new DeleteOptions<Session>(
@@ -84,7 +85,7 @@ router.delete("/:id", verifyToken, (req: Request, res: Response) => {
   dynamoService
     .delete(params)
     .then((response: any) => {
-      res.send(response);
+      res.send({ id });
     })
     .catch((err: AWSError) => {
       logger.error(`ERROR: ${err}`);
