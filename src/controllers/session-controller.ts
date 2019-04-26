@@ -12,6 +12,7 @@ import { verifyToken } from "./verify-token";
 import * as logger from "winston";
 import { AWSError } from "aws-sdk";
 import { ObjectUtils, SessionService } from "../utils";
+import {config} from "../config";
 
 const express = require("express");
 const router: Router = express.Router();
@@ -27,7 +28,7 @@ router.post("", verifyToken, (req: Request, res: Response) => {
   ObjectUtils.mapEmptyStrings(session);
   logger.debug(session);
   dynamoService.connect();
-  const params: UpsertOptions<Session> = new UpsertOptions("session", session);
+  const params: UpsertOptions<Session> = new UpsertOptions(config.SESSION_TABLE, session);
   logger.debug(`Inserting params: ${JSON.stringify(params)}`);
   dynamoService
     .upsert(params)
@@ -43,7 +44,7 @@ router.post("", verifyToken, (req: Request, res: Response) => {
 });
 router.get("", verifyToken, (req: Request, res: Response) => {
   dynamoService.connect();
-  const params: GetAllOptions<Session> = new GetAllOptions("session");
+  const params: GetAllOptions<Session> = new GetAllOptions(config.SESSION_TABLE);
   dynamoService
     .getAll(params)
     .then((response: any) => {
@@ -60,7 +61,7 @@ router.get("/:id", verifyToken, (req: Request, res: Response) => {
   const key: any = {
     session_id: req.params.id,
   };
-  const params: GetOptions<Session> = new GetOptions<Session>("session", key);
+  const params: GetOptions<Session> = new GetOptions<Session>(config.SESSION_TABLE, key);
   dynamoService.connect();
   dynamoService
     .get(params)
@@ -79,7 +80,7 @@ router.delete("/:id", verifyToken, (req: Request, res: Response) => {
   };
   dynamoService.connect();
   const params: DeleteOptions<Session> = new DeleteOptions<Session>(
-    "session",
+    config.SESSION_TABLE,
     key,
   );
   dynamoService

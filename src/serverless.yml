@@ -6,6 +6,8 @@ tenant: dsykes
 provider:
   name: aws
   runtime: nodejs8.10
+  deploymentBucket:
+    name: ${env:S3_BUCKET}
   environment:
     PORT: ${env:PORT}
     SECRET: ${env:SECRET}
