@@ -10,12 +10,16 @@ export class ConfigModel {
   AWS_API_VERSION: string;
   SECRET: string;
   PORT: string;
+  USER_TABLE: string;
+  SESSION_TABLE: string;
 }
 
-export const config = envalid.cleanEnv<ConfigModel>(process.env,  {
+export const config = envalid.cleanEnv<ConfigModel>(process.env, {
   LOG_LEVEL: str(),
   DYNAMO_REGION: str(),
   AWS_API_VERSION: str(),
   SECRET: str(),
   PORT: str(),
+  USER_TABLE: str(),
+  SESSION_TABLE: str(),
 });

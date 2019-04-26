@@ -4,6 +4,7 @@ import { DynamoService } from "../dynamo-service";
 import { GetOptions, User } from "../models";
 import { AWSError } from "aws-sdk";
 import * as logger from "winston";
+import {config} from "../config";
 
 const jwt = require("jsonwebtoken");
 const express = require("express");
@@ -19,7 +20,7 @@ router.post("/login", (req: Request, res: Response) => {
   const key: any = {
     username: username,
   };
-  const params: GetOptions<User> = new GetOptions("users", key);
+  const params: GetOptions<User> = new GetOptions(config.USER_TABLE, key);
   dynamoService.connect();
   dynamoService
     .get(params)
@@ -29,7 +30,7 @@ router.post("/login", (req: Request, res: Response) => {
         return res.send({ Error: "No user found." });
       }
       if (data.password === password) {
-        const token = jwt.sign({ id: req.body.name }, process.env.SECRET, {
+        const token = jwt.sign({ id: req.body.name }, config.SECRET, {
           expiresIn: 86400,
         });
         res.status(200).send({ auth: true, token: token, expiresIn: 86400 });
